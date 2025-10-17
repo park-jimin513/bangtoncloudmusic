@@ -20,12 +20,14 @@ export default function Login({ onClose, onSwitch, onLoginSuccess }) {
       const user = await apiFetch('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email: form.email, password: form.password }),
-        // credentials: 'include' // uncomment if backend uses cookies
+        credentials: 'include' // ensures cookies/sessions are sent
       });
+
       alert('Login successful!');
       if (onLoginSuccess) onLoginSuccess(user);
       if (onClose) onClose();
     } catch (err) {
+      console.error(err);
       alert('Login failed');
     }
   };
@@ -63,7 +65,6 @@ export default function Login({ onClose, onSwitch, onLoginSuccess }) {
         />
 
         <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-
           <span
             style={{ color: '#4b4bff', textDecoration: 'underline', fontSize: '0.95em', cursor: 'pointer' }}
             onClick={() => setShowForgot(true)}
@@ -74,10 +75,16 @@ export default function Login({ onClose, onSwitch, onLoginSuccess }) {
 
         <button type="submit">Login</button>
         <button type="button" className="close-btn" onClick={onClose}>Cancel</button>
+
         <div className="auth-switch-msg" style={{marginTop: '1.2rem'}}>
-          <p style={{color: 'red', marginBottom: '0.5rem'}}>If you don't have an account, you can register below.</p>
+          <p style={{color: 'red', marginBottom: '0.5rem'}}>
+            If you don't have an account, you can register below.
+          </p>
           <span>
-            <span className="auth-link" onClick={() => { onClose && onClose(); onSwitch && onSwitch('register'); }}>
+            <span
+              className="auth-link"
+              onClick={() => { onClose && onClose(); onSwitch && onSwitch('register'); }}
+            >
               Go to Register
             </span>
           </span>

@@ -1,5 +1,6 @@
+// src/api.js
+
 // Resolve backend URL safely for CRA (REACT_APP_), Vite (VITE_), runtime window.__env, or fallback.
-// Default to deployed backend in production to avoid ERR_CONNECTION_REFUSED when frontend runs on Vercel.
 const getEnvBackendUrl = () => {
   // Vite
   if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_BACKEND_URL) {
@@ -31,7 +32,7 @@ export async function apiFetch(path, options = {}) {
   const url = `${API_BASE}${path}`;
   const res = await fetch(url, {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-    credentials: options.credentials ?? "same-origin",
+    credentials: options.credentials ?? "include", // send cookies by default
     ...options,
   });
   if (!res.ok) throw new Error(await res.text());

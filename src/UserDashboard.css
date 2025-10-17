@@ -1,0 +1,510 @@
+/* ================================
+   🎵 Dashboard Wrapper
+   ================================ */
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(145deg, #fce4ec, #e1bee7);
+  font-family: "Segoe UI", sans-serif;
+  z-index: 10;
+  transition: background 0.3s ease;
+}
+
+/* ================================
+   🎵 Header
+   ================================ */
+.dashboard-header {
+  background: #8e24aa;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 2rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+}
+.nav-links span {
+  margin: 0 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #f8f8ff;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.nav-links span::after {
+  content: '';
+  display: block;
+  width: 0%;
+  height: 2px;
+  background: #fce4ec;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+.nav-links span:hover::after { width: 100%; }
+.nav-links span:hover { color: #fce4ec; }
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logout-btn {
+  background: #fce4ec;
+  color: #8e24aa;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.logout-btn:hover {
+  background: #fff;
+  color: #7b1fa2;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.nav-profile-pic {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fce4ec;
+  transition: all 0.3s ease;
+}
+.nav-profile-pic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px #fce4ec;
+}
+
+/* ================================
+   🎵 Layout
+   ================================ */
+.dashboard-body { display: flex; flex: 1; overflow: hidden; }
+.sidebar {
+  width: 220px;
+  background: #f3e5f5;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+}
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li {
+  padding: 1rem 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6a1b9a;
+}
+.sidebar li:hover {
+  color: #fce4ec;
+  background: #8e24aa;
+  transform: translateX(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #fce4ec, #e1bee7);
+}
+.content h2 {
+  margin-bottom: 1rem;
+  color: #6a1b9a;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* ================================
+   🎵 Song Grid
+   ================================ */
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+.song-card {
+  width: 160px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(123,31,162,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+.song-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(123,31,162,0.15);
+}
+.song-card.active {
+  border: 2px solid #7b1fa2;
+  background: #fce4ec;
+  box-shadow: 0 18px 38px rgba(123,31,162,0.12);
+}
+.song-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4a148c;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+.song-meta {
+  font-size: 0.78rem;
+  color: #7b4a9d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.song-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.favorite-btn, .download-btn {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  color: #6a1b9a;
+  cursor: pointer;
+}
+.favorite-btn.active { background:#ffeef8; color:#e91e63; }
+
+/* ================================
+   🎧 Premium Glassy Music Player Bar (Centered Controls)
+   ================================ */
+/* ================================
+   🎧 Gaana-Style Music Player Bar
+   ================================ */
+audio {
+  display: none;
+}
+
+.audio-player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+  background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-weight: 500;
+  z-index: 200;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.audio-player-bar:hover {
+  background: rgba(30, 30, 30, 0.95);
+  box-shadow: 0 -4px 25px rgba(255, 143, 252, 0.2);
+}
+
+/* 🎵 Album Art */
+.audio-album-art {
+  flex: 0.15;
+  max-width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 15px;
+}
+
+.audio-album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 🎶 Track Info */
+.audio-track-info {
+  flex: 0.3;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  animation: scrollText 15s linear infinite;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 🎵 Center Controls */
+.audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0.3;
+  gap: 20px;
+}
+
+.audio-controls button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.audio-controls button:hover {
+  transform: scale(1.3);
+  color: #ff3ec4;
+  text-shadow: 0 0 10px #ff3ec4;
+}
+
+/* 🎚 Progress Bar */
+.audio-progress {
+  flex: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-progress input[type="range"] {
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  appearance: none;
+  cursor: pointer;
+}
+
+.audio-progress input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff3ec4;
+  cursor: pointer;
+  box-shadow: 0 0 8px #ff3ec4;
+}
+
+.audio-progress input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff3ec4;
+  cursor: pointer;
+  box-shadow: 0 0 8px #ff3ec4;
+}
+
+/* 🎚 Volume Control */
+.audio-volume {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 0.15;
+}
+
+.audio-volume input[type="range"] {
+  width: 100px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.audio-volume input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff3ec4;
+  cursor: pointer;
+  box-shadow: 0 0 6px #ff3ec4;
+}
+
+.audio-volume input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff3ec4;
+  cursor: pointer;
+  box-shadow: 0 0 6px #ff3ec4;
+}
+
+/* 🌟 Glow Pulse */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px #ff3ec4; }
+  50% { box-shadow: 0 0 18px #ff3ec4; }
+}
+
+.audio-player-bar.playing {
+  animation: glowPulse 2.5s infinite;
+}
+
+
+/* ================================
+   🎵 Albums, Artists, Playlists
+   ================================ */
+.album-list, .artist-list, .playlist-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.album-card, .artist-card, .playlist-card {
+  padding: 1rem 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(123,31,162,0.1);
+  cursor: pointer;
+  color: #6a1b9a;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.album-card:hover, .artist-card:hover, .playlist-card:hover {
+  background: #fce4ec;
+  transform: translateY(-5px);
+}
+
+/* ================================
+   🎵 Settings Page
+   ================================ */
+.settings-form {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px;
+}
+.settings-form input[type="text"],
+.settings-form input[type="password"],
+.settings-form input[type="file"] {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.settings-form button {
+  background: #8e24aa;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.settings-form button:hover {
+  background: #6a1b9a;
+  transform: scale(1.05);
+}
+
+/* ================================
+   🎵 Search Bar
+   ================================ */
+.search-bar {
+  background: #fce4ec;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.search-bar input {
+  width: 60%;
+  padding: 0.6rem;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+}
+
+/* ================================
+   🎵 Footer
+   ================================ */
+.dashboard-footer {
+  background: #8e24aa;
+  color: #fff;
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+}
+
+/* ================================
+   🎵 Back Button
+   ================================ */
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #6a1b9a;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+.back-btn:hover { color: #8e24aa; }
+
+/* ================================
+   🌙 Dark Mode
+   ================================ */
+.dark-mode {
+  background: linear-gradient(145deg, #2a003e, #000000);
+  color: #fff;
+}
+.dark-mode .dashboard-header {
+  background: #3a005a;
+}
+.dark-mode .sidebar {
+  background: #1a001f;
+  border-right: 1px solid #333;
+}
+.dark-mode .song-card {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+.dark-mode .song-card.active {
+  background: rgba(255,255,255,0.15);
+  border-color: #e91e63;
+}
+.dark-mode .content {
+  background: linear-gradient(180deg, #1a001f, #3a005a);
+}
+.dark-mode .audio-player-bar {
+  background: linear-gradient(90deg, #3a005a, #e91e63);
+}
+.dark-mode .logout-btn {
+  background: #e91e63;
+  color: #fff;
+}
+.dark-mode .logout-btn:hover {
+  background: #ff80ab;
+  color: #2a003e;
+}
